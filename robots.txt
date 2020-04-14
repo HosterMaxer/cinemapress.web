@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /ref
+
+Sitemap: https://cinemapress.io/sitemap.xml
