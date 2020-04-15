@@ -215,7 +215,7 @@ function req() {
 
     if (!domain || !ip || !root || !theme || !lang) {
         self.addEventListener('click', req);
-        self.innerHTML = 'Установить';
+        self.innerHTML = lang === 'ru' ? 'Установить' : 'Install';
         return;
     }
 
