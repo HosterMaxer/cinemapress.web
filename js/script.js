@@ -171,7 +171,12 @@ function req() {
         self.innerHTML = '<span class="fa fa-spinner fa-pulse fa-fw"></span>';
     }
 
-    var domain, ip, root, theme = 'tarly', lang = 'ru';
+    var themes = 'hodor|sansa|robb|ramsay|tyrion|cersei|joffrey|drogo|bran|arya|mormont|tarly|daenerys'.split('|');
+    var domain,
+        ip,
+        root,
+        theme = themes[Math.floor(Math.random()*themes.length)],
+        lang = /^\/en/i.test(window.location.pathname) ? 'en' : 'ru';
 
     var req_domain = document.querySelector('input[name="req_domain"]');
     if (req_domain && req_domain.value) {
@@ -234,38 +239,54 @@ function req() {
                 document.querySelector('.install-success').style.display = 'block';
                 document.querySelector('input[name="password"]').value = pass;
                 setTimeout(function () {
-                    document.querySelector('[data-info="dns"]').innerHTML = '<span class="fa fa-plug"></span>&nbsp;&nbsp;<a href="/article/kak-soedinit-domen-s-serverom.html" target="_blank">Пропишите DNS домена!</a>';
+                    document.querySelector('[data-info="dns"]').innerHTML = lang === 'ru'
+                        ? '<span class="fa fa-plug"></span>&nbsp;&nbsp;Пропишите DNS домена!'
+                        : '<span class="fa fa-plug"></span>&nbsp;&nbsp;Register domain DNS!';
                 }, 20000);
                 timer(10, 'install', function (time) {
                     time.innerHTML = '<span class="text-success">OK</span>';
                     document.querySelector('#go').setAttribute('href', 'http://' + domain + '/admin');
                     document.querySelector('#go').setAttribute('target', '_blank');
-                    document.querySelector('#go').innerHTML = 'Перейти в админ-панель';
+                    document.querySelector('#go').innerHTML = lang === 'ru'
+                        ? 'Перейти в админ-панель'
+                        : 'Go to admin panel';
                 });
             }
             else if (http.responseText === 'TIME') {
-                document.querySelector('[data-info="time"]').innerHTML = '' +
-                    '<i class="fa fa-info-circle"></i>&nbsp;&nbsp;Повторите запрос через 1 мин!';
+                document.querySelector('[data-info="time"]').innerHTML = lang === 'ru'
+                    ? '<i class="fa fa-info-circle"></i>&nbsp;&nbsp;Повторите запрос через 1 мин!'
+                    : '<i class="fa fa-info-circle"></i>&nbsp;&nbsp;Repeat request after 1 min!';
                 setTimeout(function () {
                     self.addEventListener('click', req);
-                    document.querySelector('[data-info="time"]').innerHTML = 'Ваш домен';
-                    self.innerHTML = 'Установить';
+                    document.querySelector('[data-info="time"]').innerHTML = lang === 'ru'
+                        ? 'Ваш домен'
+                        : 'Your domain';
+                    self.innerHTML = lang === 'ru' ? 'Установить' : 'Install';
                 }, 60000);
             }
-            else if (http.responseText === 'OFFLINE') {
-                document.querySelector('[data-info="offline"]').innerHTML = '' +
-                    '<i class="fa fa-info-circle"></i>&nbsp;&nbsp;Ваш сервер еще не активирован!';
+            else if (http.responseText === 'OFFLINE' || http.responseText === 'CONNECT') {
+                if (http.responseText === 'OFFLINE') {
+                    document.querySelector('[data-info="offline"]').innerHTML = lang === 'ru'
+                        ? '<i class="fa fa-info-circle"></i>&nbsp;&nbsp;Ваш сервер еще не активирован!'
+                        : '<i class="fa fa-info-circle"></i>&nbsp;&nbsp;Your server is not activated yet!';
+                } else {
+                    document.querySelector('[data-info="offline"]').innerHTML = lang === 'ru'
+                        ? '<i class="fa fa-info-circle"></i>&nbsp;&nbsp;Пароль введен неверно!'
+                        : '<i class="fa fa-info-circle"></i>&nbsp;&nbsp;Password entered incorrectly!';
+                }
                 self.addEventListener('click', req);
-                self.innerHTML = 'Установить';
+                self.innerHTML = lang === 'ru' ? 'Установить' : 'Install';
                 setTimeout(function () {
-                    document.querySelector('[data-info="offline"]').innerHTML = 'Ваш сервер';
+                    document.querySelector('[data-info="offline"]').innerHTML = lang === 'ru'
+                        ? 'Ваш сервер'
+                        : 'Your server';
                 }, 10000);
             }
             else {
                 document.querySelector('.install-form').style.display = 'block';
                 document.querySelector('.install-success').style.display = 'none';
                 self.addEventListener('click', req);
-                self.innerHTML = 'Установить';
+                self.innerHTML = lang === 'ru' ? 'Установить' : 'Install';
             }
         }
     };
