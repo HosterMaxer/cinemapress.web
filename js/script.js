@@ -245,6 +245,7 @@ function req() {
                 }, 20000);
                 timer(10, 'install', function (time) {
                     time.innerHTML = '<span class="text-success">OK</span>';
+                    document.querySelector('#admin').innerHTML = 'http://' + domain + '/admin';
                     document.querySelector('#go').setAttribute('href', 'http://' + domain + '/admin');
                     document.querySelector('#go').setAttribute('target', '_blank');
                     document.querySelector('#go').innerHTML = lang === 'ru'
