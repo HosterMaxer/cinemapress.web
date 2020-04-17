@@ -238,6 +238,7 @@ function req() {
                 document.querySelector('.install-form').style.display = 'none';
                 document.querySelector('.install-success').style.display = 'block';
                 document.querySelector('input[name="password"]').value = pass;
+                document.querySelector('#admin').innerHTML = 'http://' + domain + '/admin';
                 setTimeout(function () {
                     document.querySelector('[data-info="dns"]').innerHTML = lang === 'ru'
                         ? '<span class="fa fa-plug"></span>&nbsp;&nbsp;Пропишите DNS домена!'
@@ -245,7 +246,6 @@ function req() {
                 }, 20000);
                 timer(10, 'install', function (time) {
                     time.innerHTML = '<span class="text-success">OK</span>';
-                    document.querySelector('#admin').innerHTML = 'http://' + domain + '/admin';
                     document.querySelector('#go').setAttribute('href', 'http://' + domain + '/admin');
                     document.querySelector('#go').setAttribute('target', '_blank');
                     document.querySelector('#go').innerHTML = lang === 'ru'
